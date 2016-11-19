@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ThirdViewController: UIViewController {
+class ThirdViewController: UIViewController,UITextFieldDelegate {
     
     var delay = ""
     var defaltspeed = ""
     var nam = ""
     var myNewDictArray: [[String:String]] = []
+    var pp=NSUserDefaults()
     @IBOutlet weak var UserName: UITextField!
     
     
@@ -32,7 +33,7 @@ class ThirdViewController: UIViewController {
         prefs.setValue(SleepingDelay.text, forKey: "Delay")
         prefs.synchronize()
         let tab1=self.tabBarController?.viewControllers?[0] as! FirstViewController
-tab1.UserName.text=self.UserName.text
+        tab1.UserName.text=self.UserName.text
         tab1.WPM.text=self.DefaultSpeed.text
         self.tabBarController?.selectedIndex=0
         
@@ -40,25 +41,82 @@ tab1.UserName.text=self.UserName.text
         
         if myNewDictArray == []
         {
-            
+          myNewDictArray.append(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!])
+            print(myNewDictArray)
+             pp.setObject(myNewDictArray,forKey:"UserInfo")
+            pp.synchronize()
         }
         else
         {
-            
+           myNewDictArray.append(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!])
+            print(myNewDictArray)
+             pp.setObject(myNewDictArray,forKey:"UserInfo")
+            pp.synchronize()
         }
         
+      
         
-        
+       // print(myNewDictArray)
+//        if let UserInfo = NSUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
+//        {
+//            print(UserInfo)
+//            
+//            for item in UserInfo
+//            {
+//                print(item["UserName"])
+//            }
+//        }
     }
     
     
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        SleepingDelay.resignFirstResponder()
+        
+        self.view.endEditing(true)
+    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.SleepingDelay
+        {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+
     
-    
-    
-    
+    func textField(textField: UITextField,
+                   shouldChangeCharactersInRange range: NSRange,
+                                                 replacementString string: String) -> Bool {
+        var filtered=""
+        if(textField==SleepingDelay)
+        {
+            let inverseSet = NSCharacterSet(charactersInString:"0123456789.").invertedSet
+            let components = string.componentsSeparatedByCharactersInSet(inverseSet)
+            filtered = components.joinWithSeparator("")
+            
+        }
+        else if(textField==UserName)
+        {
+            let inverseSet = NSCharacterSet(charactersInString:"0123456789.abcdefghijklenoprstuvwxyz@!#$%^&*").invertedSet
+            let components = string.componentsSeparatedByCharactersInSet(inverseSet)
+            filtered = components.joinWithSeparator("")
+        }
+        else{
+            let inverseSet = NSCharacterSet(charactersInString:"0123456789").invertedSet
+            let components = string.componentsSeparatedByCharactersInSet(inverseSet)
+            filtered = components.joinWithSeparator("")
+
+        }
+        return string == filtered
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.UserName.delegate=self
+        self.DefaultSpeed.delegate=self
+        self.SleepingDelay.delegate=self
+        self.UserName.becomeFirstResponder()
         if let un=prefs.stringForKey("UserName")
         {
             UserName.text=un
@@ -77,6 +135,16 @@ tab1.UserName.text=self.UserName.text
         
 delay=SleepingDelay.text!
         
+        
+        if let UserInfo = pp.arrayForKey("UserInfo") as? [[String: String]]
+        {
+            print(UserInfo)
+            
+//            for item in UserInfo
+//            {
+//                print(item["UserName"])
+//            }
+        }
         
         // Do any additional setup after loading the view.
     }
