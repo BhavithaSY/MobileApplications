@@ -14,7 +14,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     var defaltspeed = ""
     var nam = ""
     var myNewDictArray: [[String:String]] = []
-    var pp=NSUserDefaults()
+    var pp=NSUserDefaults.standardUserDefaults()
     @IBOutlet weak var UserName: UITextField!
     
     
@@ -35,24 +35,25 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         let tab1=self.tabBarController?.viewControllers?[0] as! FirstViewController
         tab1.UserName.text=self.UserName.text
         tab1.WPM.text=self.DefaultSpeed.text
-        self.tabBarController?.selectedIndex=0
+        
         
         //saving users and their details to dic
-        
-        if myNewDictArray == []
-        {
-          myNewDictArray.append(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!])
-            print(myNewDictArray)
+//        
+//        if myNewDictArray == []
+//        {
+//          myNewDictArray.append(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!])
+//           // print(myNewDictArray)
+//             pp.setObject(myNewDictArray,forKey:"UserInfo")
+//            pp.synchronize()
+//        }
+//        else
+//        {
+        myNewDictArray.insert(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!,"NoOfTries":"0"], atIndex: 0)
+//           myNewDictArray.append(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!])
+            //print(myNewDictArray)
              pp.setObject(myNewDictArray,forKey:"UserInfo")
             pp.synchronize()
-        }
-        else
-        {
-           myNewDictArray.append(["UserName":UserName.text!,"Speed1":"0","Speed2":"0","Speed3":"0","HeighestSpeed":"0","LastUpdated":"0","Delay":SleepingDelay.text!])
-            print(myNewDictArray)
-             pp.setObject(myNewDictArray,forKey:"UserInfo")
-            pp.synchronize()
-        }
+       // }
         
       
         
@@ -66,6 +67,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
 //                print(item["UserName"])
 //            }
 //        }
+        self.tabBarController?.selectedIndex=0
     }
     
     
@@ -136,19 +138,19 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
 delay=SleepingDelay.text!
         
         
-        if let UserInfo = pp.arrayForKey("UserInfo") as? [[String: String]]
-        {
-            print(UserInfo)
-            
-//            for item in UserInfo
-//            {
-//                print(item["UserName"])
-//            }
-        }
+//        if let UserInfo = pp.arrayForKey("UserInfo") as? [[String: String]]
+//        {
+//           // print(UserInfo)
+//            
+////            for item in UserInfo
+////            {
+////                //print(item["UserName"])
+////            }
+//        }
         
         // Do any additional setup after loading the view.
     }
-
+  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -27,14 +27,45 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
     @IBAction func StartingAction(sender: AnyObject) {
         indexToDel = 0
         let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
+//        if let UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
+//                {
+//                   // print(UserInfo)
+//        
+//                    for var item in UserInfo
+//                    {
+//                        if  item["UserName"] == self.UserName.text
+//                        {
+//                        var tempAttempts=Int(item["NoOfTries"]!)
+//                            item["NoOfTries"]=String(tempAttempts!+1)
+//                        }
+//                        
+//                        
+//                    }
+//                }
+//
 //tab3.SleepingDelay.text="1"
    // print(tab3.delay)
 //        var sleepintime = UInt32(tab3.delay)
 //        sleep(sleepintime!)
         
+        //setting data for stats tab
         
-        
-        
+//        let tab2=self.tabBarController?.viewControllers?[1] as! SecondViewController
+//        //tab2.UserName.text=self.UserName.text
+//        
+//        if let s1=tab3.pp.arrayForKey("UserInfo") as? [[String:String]]
+//        {
+//            for item in s1
+//            {
+//                if item["UserName"] == self.UserName.text
+//                {
+//                    tab2.LastScore.text = item["Speed1"]
+//                    tab2.LastButOneScore.text=item["Speed2"]
+//                    tab2.LastBeforeButOneScore.text=item["Speed3"]
+//                    break
+//                }
+//            }
+//        }
         
         
         
@@ -86,11 +117,14 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         itmd["Speed1"] = WPM.text
                         itmd["LastUpdated"]="Speed1"
                         itmd["HeighestSpeed"]=WPM.text!
+                       var temptries = Int(item["NoOfTries"]!)
+                        itmd["NoOfTries"]=String(temptries!+1)
+                        
                         //print(itmd)
                         
                         UserInfo.removeAtIndex(indexToDel)
                         UserInfo.append(itmd)
-                        print(UserInfo)
+                        //print(UserInfo)
                         tab3.pp.setObject(UserInfo, forKey: "UserInfo")
                         
                         tab3.pp.synchronize()
@@ -112,6 +146,8 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         {
                             itmd["HeighestSpeed"]=WPM.text!
                         }
+                        var temptries = Int(item["NoOfTries"]!)
+                        itmd["NoOfTries"]=String(temptries!+1)
 
                         UserInfo.removeAtIndex(indexToDel)
                         UserInfo.append(itmd)
@@ -135,6 +171,8 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         ths.append(speed2)
                         ths.append(nw)
                         itmd["HeighestSpeed"]=String(ths.maxElement()!)
+                        var temptries = Int(item["NoOfTries"]!)
+                        itmd["NoOfTries"]=String(temptries!+1)
 
                         UserInfo.removeAtIndex(indexToDel)
                         UserInfo.append(itmd)
@@ -191,6 +229,8 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         ths.append(ht)
                         ths.append(nw)
                         itmd["HeighestSpeed"]=String(ths.maxElement()!)
+                        var temptries = Int(item["NoOfTries"]!)
+                        itmd["NoOfTries"]=String(temptries!+1)
 
                         UserInfo.removeAtIndex(indexToDel)
                         UserInfo.append(itmd)
@@ -210,12 +250,12 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
             
             if let UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
             {
-                //print(UserInfo)
+                print(UserInfo)
                 
-                for item in UserInfo
-                {
-                    print(item)
-                }
+//                for item in UserInfo
+//                {
+//                    print(item)
+//                }
             }
 
            
@@ -258,7 +298,7 @@ func readFromFile()
             encoding: NSUTF8StringEncoding) {
             
              a = text.componentsSeparatedByString(" ")
-            print(a.count)
+            //print(a.count)
             if(counterForWords<a.count)
             {
                 
@@ -343,15 +383,15 @@ func readFromFile()
         
         //simply displayig to check
         
-        if let UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
-        {
-            print(UserInfo)
-            
-//            for item in UserInfo
-//            {
-//                print(item)
-//            }
-        }
+//        if let UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
+//        {
+//            print(UserInfo)
+//            
+////            for item in UserInfo
+////            {
+////                print(item)
+////            }
+//        }
 
        
     }

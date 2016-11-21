@@ -57,7 +57,6 @@
                                 <rect key="frame" x="51" y="157" width="66" height="30"/>
                                 <state key="normal" title="Stop Test"/>
                                 <connections>
-                                    <action selector="StartingAction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="knp-0r-w6V"/>
                                     <action selector="Stopping:" destination="9pv-A4-QxB" eventType="touchUpInside" id="REM-tc-vBA"/>
                                 </connections>
                             </button>

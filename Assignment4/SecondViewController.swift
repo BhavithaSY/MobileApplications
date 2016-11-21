@@ -23,7 +23,7 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
     @IBOutlet weak var LastBeforeButOneScore: UILabel!
     
     @IBOutlet weak var NoOfTries: UILabel!
-    
+   
     
     @IBOutlet weak var table: UITableView!
     
@@ -35,9 +35,19 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
         return "Users:Scores"
     }
      func tableView(table: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var x = 0
+        let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
+        if let s1=tab3.pp.arrayForKey("UserInfo") as? [[String:String]]
+        {
+            for item in s1
+            {
+                x=x+1
+            }
+        }
         
         //return contacts.count()
-        return 1
+        return x
+        
     }
     
      func tableView(table: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -50,6 +60,11 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
 //        cell.imageView!.image=UIImage(named: "mickey.jpeg")
         //way of getting the image dynamically
         // UIImage(named: arrayofpictures[indexPath.row])
+        let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
+        let s1=tab3.pp.arrayForKey("UserInfo") as? [[String:String]]
+        cell.textLabel?.text=s1![indexPath.row]["UserName"]
+        cell.detailTextLabel?.text=s1![indexPath.row]["HeighestSpeed"]
+       
        return cell
     }
 
@@ -59,9 +74,60 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.table.delegate=self
+        self.table.dataSource=self
+        self.table.reloadData()
+         let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
+        
+        if let un=tab3.prefs.stringForKey("UserName")
+        {
+            self.UserName.text = un
+        }
+        if let s1=tab3.pp.arrayForKey("UserInfo") as? [[String:String]]
+        {
+            for item in s1
+            {
+                if item["UserName"] == self.UserName.text
+                {
+                    self.LastScore.text = item["Speed1"]
+                    self.LastButOneScore.text=item["Speed2"]
+                    self.LastBeforeButOneScore.text=item["Speed3"]
+                    self.NoOfTries.text=item["NoOfTries"]
+                    break
+                }
+            }
+        }
+        //UserName.text=
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    override func viewWillAppear(animated: Bool) {
+       // super.viewWillAppear()
+        self.table.reloadData()
+        let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
+        
+        if let un=tab3.prefs.stringForKey("UserName")
+        {
+            self.UserName.text = un
+        }
+        if let s1=tab3.pp.arrayForKey("UserInfo") as? [[String:String]]
+        {
+            for item in s1
+            {
+                if item["UserName"] == self.UserName.text
+                {
+                    self.LastScore.text = item["Speed1"]
+                    self.LastButOneScore.text=item["Speed2"]
+                    self.LastBeforeButOneScore.text=item["Speed3"]
+                    self.NoOfTries.text=item["NoOfTries"]
+                    break
+                }
+            }
+        }
+
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
