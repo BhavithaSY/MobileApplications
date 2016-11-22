@@ -120,12 +120,22 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7fH-tv-7IG">
-                                <rect key="frame" x="111" y="216" width="98" height="30"/>
+                                <rect key="frame" x="165" y="213" width="98" height="30"/>
                                 <state key="normal" title="Save Changes"/>
                                 <connections>
                                     <action selector="SaveChanges:" destination="PTT-6I-l61" eventType="touchUpInside" id="zM5-i7-Zub"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="asX-rn-xBx">
+                                <rect key="frame" x="22" y="213" width="99" height="30"/>
+                                <state key="normal" title="Add New User"/>
+                                <connections>
+                                    <action selector="AddNewUser:" destination="PTT-6I-l61" eventType="touchUpInside" id="QXz-Ws-EGw"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpf-aD-Ij3">
+                                <rect key="frame" x="20" y="251" width="280" height="172"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -134,6 +144,8 @@
                         <outlet property="DefaultSpeed" destination="ici-it-RcM" id="H2t-SZ-fJT"/>
                         <outlet property="SleepingDelay" destination="OVX-gj-cZY" id="SNL-py-9um"/>
                         <outlet property="UserName" destination="IIp-Wy-GZM" id="ttB-Gd-GKi"/>
+                        <outlet property="addnew" destination="asX-rn-xBx" id="FP6-eN-g2i"/>
+                        <outlet property="picker" destination="lpf-aD-Ij3" id="685-8B-g0k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YXw-eK-OTT" userLabel="First Responder" sceneMemberID="firstResponder"/>

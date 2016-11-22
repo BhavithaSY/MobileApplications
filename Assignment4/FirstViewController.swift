@@ -17,7 +17,7 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
     
     @IBOutlet weak var WPM: UITextField!
     
-    let prefs = NSUserDefaults.standardUserDefaults()
+    //let prefs = NSUserDefaults.standardUserDefaults()
     var counterForWords = 0
     var a:[String]=[""]
     var timer:NSTimer?
@@ -27,51 +27,6 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
     @IBAction func StartingAction(sender: AnyObject) {
         indexToDel = 0
         let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
-//        if let UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
-//                {
-//                   // print(UserInfo)
-//        
-//                    for var item in UserInfo
-//                    {
-//                        if  item["UserName"] == self.UserName.text
-//                        {
-//                        var tempAttempts=Int(item["NoOfTries"]!)
-//                            item["NoOfTries"]=String(tempAttempts!+1)
-//                        }
-//                        
-//                        
-//                    }
-//                }
-//
-//tab3.SleepingDelay.text="1"
-   // print(tab3.delay)
-//        var sleepintime = UInt32(tab3.delay)
-//        sleep(sleepintime!)
-        
-        //setting data for stats tab
-        
-//        let tab2=self.tabBarController?.viewControllers?[1] as! SecondViewController
-//        //tab2.UserName.text=self.UserName.text
-//        
-//        if let s1=tab3.pp.arrayForKey("UserInfo") as? [[String:String]]
-//        {
-//            for item in s1
-//            {
-//                if item["UserName"] == self.UserName.text
-//                {
-//                    tab2.LastScore.text = item["Speed1"]
-//                    tab2.LastButOneScore.text=item["Speed2"]
-//                    tab2.LastBeforeButOneScore.text=item["Speed3"]
-//                    break
-//                }
-//            }
-//        }
-        
-        
-        
-        
-        
-        
         if(self.UserName.text == "") {
          let alertController = UIAlertController(title: "No User Selected", message:
                             "Please enter te user name first when navigated to settings.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -86,15 +41,19 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
 
             
         else {
-            prefs.setValue(self.UserName.text, forKey: "UserName")
-            prefs.setValue(self.WPM.text, forKey: "WPM")
-            prefs.synchronize()
+            if(self.WPM.text != "")
+            {
+            
+            
+            NSUserDefaults.standardUserDefaults().setValue(self.UserName.text, forKey: "UserName")
+            NSUserDefaults.standardUserDefaults().setValue(self.WPM.text, forKey: "WPM")
+            NSUserDefaults.standardUserDefaults().synchronize()
             
             
             
             
             //storing in dictionary////
-            if var UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
+            if var UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
             {
                 //print(UserInfo)
                 
@@ -125,9 +84,9 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         UserInfo.removeAtIndex(indexToDel)
                         UserInfo.append(itmd)
                         //print(UserInfo)
-                        tab3.pp.setObject(UserInfo, forKey: "UserInfo")
+                        NSUserDefaults.standardUserDefaults().setObject(UserInfo, forKey: "UserInfo")
                         
-                        tab3.pp.synchronize()
+                        NSUserDefaults.standardUserDefaults().synchronize()
                        // print(item["Speed1"])
 
                         //itmd["Speed1"] = WPM.text
@@ -154,8 +113,8 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         //print(UserInfo)
                         
                         
-                        tab3.pp.setObject(UserInfo , forKey: "UserInfo")
-                        tab3.pp.synchronize()
+                        NSUserDefaults.standardUserDefaults().setObject(UserInfo , forKey: "UserInfo")
+                        NSUserDefaults.standardUserDefaults().synchronize()
 
                         //itmd["Speed2"] = WPM.text
                         }
@@ -187,8 +146,8 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         
                        // print(UserInfo)
 
-                        tab3.pp.setObject(UserInfo, forKey: "UserInfo")
-                        tab3.pp.synchronize()
+                        NSUserDefaults.standardUserDefaults().setObject(UserInfo, forKey: "UserInfo")
+                        NSUserDefaults.standardUserDefaults().synchronize()
 
                         //itmd["Speed3"] = WPM.text
                         }
@@ -236,8 +195,8 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                         UserInfo.append(itmd)
                         //print(UserInfo)
                         
-                        tab3.pp.setObject(UserInfo, forKey: "UserInfo")
-                        tab3.pp.synchronize()
+                        NSUserDefaults.standardUserDefaults().setObject(UserInfo, forKey: "UserInfo")
+                        NSUserDefaults.standardUserDefaults().synchronize()
 
                        // itmd["Speed1"] = WPM.text
                         }
@@ -248,9 +207,9 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
             }
             //simply displayig to check
             
-            if let UserInfo = tab3.pp.arrayForKey("UserInfo") as? [[String: String]]
+            if let UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
             {
-                print(UserInfo)
+                //print(UserInfo)
                 
 //                for item in UserInfo
 //                {
@@ -279,7 +238,16 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
             
             
             
-            
+            }
+            else
+            {
+                let alertController = UIAlertController(title: "No wpm", message:
+                    "Please enter te wpm.", preferredStyle: UIAlertControllerStyle.Alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+                
+            }
             
         }
         
@@ -371,12 +339,13 @@ func readFromFile()
         super.viewDidLoad()
         self.WPM.delegate=self
         WPM.becomeFirstResponder()
+        
         let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
-        if let un=prefs.stringForKey("UserName")
+        if let un=NSUserDefaults.standardUserDefaults().stringForKey("UserName")
         {
             self.UserName.text=un
         }
-        if let sp=prefs.stringForKey("WPM")
+        if let sp=NSUserDefaults.standardUserDefaults().stringForKey("WPM")
         {
             self.WPM.text=sp
         }
