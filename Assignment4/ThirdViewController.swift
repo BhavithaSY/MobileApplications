@@ -27,6 +27,11 @@ class ThirdViewController: UIViewController,UITextFieldDelegate,UIPickerViewDele
     @IBOutlet weak var picker: UIPickerView!
     
     @IBOutlet weak var SleepingDelay: UITextField!
+    
+    
+    @IBOutlet weak var savingchanges: UIButton!
+    
+    
     //let prefs = NSUserDefaults.standardUserDefaults()
     
      var itmd = [String: String]()
@@ -172,7 +177,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate,UIPickerViewDele
 delay=SleepingDelay.text!
         if let UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
         {
-             //print("The user info at \(UserInfo)")
+             print("The user info at \(UserInfo)")
             myNewDictArray=UserInfo
             
             for item in UserInfo
@@ -250,8 +255,8 @@ delay=SleepingDelay.text!
     
     @IBAction func AddNewUser(sender: AnyObject) {
        self.UserName.userInteractionEnabled=true
-        if(self.UserName.text != "" || self.DefaultSpeed.text != "" || self.SleepingDelay != "")
-        {
+       // self.savingchanges.hidden=true
+       
         
         if (flag == true)
         {
@@ -263,7 +268,8 @@ delay=SleepingDelay.text!
         }
        else
         {
-            
+            if(self.UserName.text != "")
+            {
             if let UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
             {
                 //print("before adding defaults \(UserInfo)")
@@ -318,18 +324,20 @@ delay=SleepingDelay.text!
                     self.presentViewController(alertController, animated: true, completion: nil)
             }
         }
-        
-        
-        }
         else
-        {
+            {
             let alertController = UIAlertController(title: "Text field are empty", message:
-                "Please enter te user name WPM and delay.", preferredStyle: UIAlertControllerStyle.Alert)
+            "Please enter te user name .", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-            
+        
             self.presentViewController(alertController, animated: true, completion: nil)
             self.tabBarController?.selectedIndex=2
+            }
+        
         }
+        
+        
+       
         
     }
     
@@ -337,9 +345,21 @@ delay=SleepingDelay.text!
     
     
     
-    
-    
-    
+//    
+//if(self.UserName.text != "")
+//{
+//    }
+//    else
+//    {
+//    let alertController = UIAlertController(title: "Text field are empty", message:
+//    "Please enter te user name .", preferredStyle: UIAlertControllerStyle.Alert)
+//    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+//    
+//    self.presentViewController(alertController, animated: true, completion: nil)
+//    self.tabBarController?.selectedIndex=2
+//    }
+
+
     
     
     

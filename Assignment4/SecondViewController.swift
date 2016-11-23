@@ -26,6 +26,9 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
    
     
     @IBOutlet weak var table: UITableView!
+    var speeds=[Int]()
+    var namess=[String]()
+    
     
      func numberOfSectionsInTableView(table: UITableView) -> Int {
         return 1 //one section
@@ -51,8 +54,7 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
     }
     
      func tableView(table: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var myArray: [[String:AnyObject]] = []
-        var dict:[String: AnyObject] = [:]
+        
         
         let contactIdentifier = "cell"
        let cell = table.dequeueReusableCellWithIdentifier(contactIdentifier,forIndexPath: indexPath)
@@ -62,31 +64,30 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
 //        cell.imageView!.image=UIImage(named: "mickey.jpeg")
         //way of getting the image dynamically
         // UIImage(named: arrayofpictures[indexPath.row])
-        let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
-        let s1=NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String:String]]
-//        cell.textLabel?.text=s1![indexPath.row]["UserName"]
-//        cell.detailTextLabel?.text=s1![indexPath.row]["HeighestSpeed"]
+       
+      cell.textLabel?.text = namess[indexPath.row]
+        cell.detailTextLabel?.text=String(speeds[indexPath.row])
 
-        if let UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
-        {
-            //print(UserInfo)
-            for item in UserInfo
-            {
-                dict["name"]=item["UserName"]
-                dict["speed"]=Int(item["HeighestSpeed"]!)
-                myArray.append(dict)
-            }
-            
-        }
-        print("Before sorting \(myArray)")
-        //let mySortedArray=myArray.sorted{$1["speed"] as? Int > $0["speed"] as? Int}
-//        print(mySortedArray)
-        myArray.sort{
-            (($0 ["speed"] as? Int) < ($1["speed"] as? Int))
-        }
-        print(myArray)
-        cell.textLabel?.text=String(myArray[indexPath.row]["name"]!)
-        cell.detailTextLabel?.text=String(myArray[indexPath.row]["speed"]!)
+//        if let UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
+//        {
+//            //print(UserInfo)
+//            for item in UserInfo
+//            {
+//                dict["name"]=item["UserName"]
+//                dict["speed"]=Int(item["HeighestSpeed"]!)
+//                myArray.append(dict)
+//            }
+//            
+//        }
+//        print("Before sorting \(myArray)")
+//        //let mySortedArray=myArray.sorted{$1["speed"] as? Int > $0["speed"] as? Int}
+////        print(mySortedArray)
+//        myArray.sort{
+//            (($0 ["speed"] as? Int) < ($1["speed"] as? Int))
+//        }
+//        print(myArray)
+//        cell.textLabel?.text=String(myArray[indexPath.row]["name"]!)
+//        cell.detailTextLabel?.text=String(myArray[indexPath.row]["speed"]!)
 
         
        
@@ -101,7 +102,7 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
         super.viewDidLoad()
         self.table.delegate=self
         self.table.dataSource=self
-        self.table.reloadData()
+        //self.table.reloadData()
          let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
         
         if let un=NSUserDefaults.standardUserDefaults().stringForKey("UserName")
@@ -124,11 +125,51 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
         }
         //UserName.text=
         // Do any additional setup after loading the view, typically from a nib.
+        viewWillAppear(true)
     }
 
     override func viewWillAppear(animated: Bool) {
-       // super.viewWillAppear()
-        self.table.reloadData()
+        
+       super.viewWillAppear(animated)
+        var myArray: [[String:String]] = []
+        var dict:[String: String] = [:]
+        //self.table.reloadData()
+        speeds.removeAll()
+        namess.removeAll()
+        if let UserInfo = NSUserDefaults.standardUserDefaults().arrayForKey("UserInfo") as? [[String: String]]
+        {
+            //print(UserInfo)
+            for item in UserInfo
+            {
+                dict["name"]=item["UserName"]
+                dict["speed"]=item["HeighestSpeed"]
+                myArray.append(dict)
+            }
+            
+        }
+        for all in myArray
+        {
+            speeds.append(Int(all["speed"]!)!)
+            namess.append(all["name"]!)
+            
+        }
+        var l = 0
+        var m=""
+        for(var i = 0 ; i < speeds.count ; i++)
+        {
+            for(var j=i+1;j<speeds.count;j++)
+            {
+                if speeds[i]<speeds[j]
+                {
+                    l=speeds[i]
+                    speeds[i]=speeds[j]
+                    speeds[j]=l
+                    m=namess[i]
+                    namess[i]=namess[j]
+                    namess[j]=m
+                }
+            }
+        }
         let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
         
         if let un=NSUserDefaults.standardUserDefaults().stringForKey("UserName")
@@ -150,6 +191,7 @@ class SecondViewController: UIViewController,UITableViewDataSource,UITableViewDe
                 }
             }
         }
+        table.reloadData()
 
         
     }

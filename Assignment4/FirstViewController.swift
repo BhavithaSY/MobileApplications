@@ -20,12 +20,16 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
     //let prefs = NSUserDefaults.standardUserDefaults()
     var counterForWords = 0
     var a:[String]=[""]
+    var para:[String]=[""]
     var timer:NSTimer?
     var itmd = [String: String]()
     var indexToDel:Int=0
+    var random = 0
     
     @IBAction func StartingAction(sender: AnyObject) {
+        
         indexToDel = 0
+        random=Int(arc4random_uniform(5))
         let tab3=self.tabBarController?.viewControllers?[2] as! ThirdViewController
         if(self.UserName.text == "") {
          let alertController = UIAlertController(title: "No User Selected", message:
@@ -64,11 +68,16 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
                     itmd=item
                     //print(item["UserName"])
                     
-                    var waitTime=UInt32(item["Delay"]!)
-                    sleep(waitTime!)
-                    
                     if(item["UserName"] == self.UserName.text)
                     {
+                        //keeping it to sleep
+                        if(item["Delay"] != "")
+                        {
+                            var waitTime=UInt32(item["Delay"]!)
+                            sleep(waitTime!)
+                            waitTime=0
+                        }
+                        
                        // print("Entered")
                        if(item["Speed1"]! == "0")
                        {
@@ -222,6 +231,7 @@ class FirstViewController: UIViewController ,UITextFieldDelegate{
             
           //code to access data from file
             //WordToDisplay.text="hello"
+                
             var interval = 60/Double(WPM.text!)!
             if timer == nil
             {
@@ -265,7 +275,9 @@ func readFromFile()
             contentsOfFile: path,
             encoding: NSUTF8StringEncoding) {
             
-             a = text.componentsSeparatedByString(" ")
+            para=text.componentsSeparatedByString("\n")
+            
+             a = para[random].componentsSeparatedByString(" ")
             //print(a.count)
             if(counterForWords<a.count)
             {
@@ -314,6 +326,7 @@ func readFromFile()
         }
 
         counterForWords=0
+        WordToDisplay.text=""
         
     }
     
